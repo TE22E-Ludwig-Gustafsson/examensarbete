@@ -15,7 +15,6 @@ export default {
         const sendText = async () => {
             if (!userText.value) return;
             const schedule = await parseTextToSchedule(userText.value);
-            // Skicka schema till parent (App eller ScheduleView)
             emit('schedule-updated', schedule);
             userText.value = '';
         };

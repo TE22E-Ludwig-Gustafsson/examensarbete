@@ -23,7 +23,7 @@
 
                         <!-- Show friendly empty state when there are no items -->
                         <tr v-if="!(scheduleRows && scheduleRows.length)">
-                            <td colspan="5" style="text-align:center; opacity:0.7">Inga schemaposter att visa</td>
+                            <td colspan="5" style="text-align:center; opacity:0.7">Inget uppdaterar i schemat</td>
                         </tr>
                     </tbody>
         </table>
@@ -40,12 +40,10 @@ export default {
         const defaultSchedule = { week1: [], week2: [], week3: [], week4: [], week5: [] };
         const schedule = computed(() => props.initialSchedule || defaultSchedule);
 
-        // Flatten the schedule into rows with friendly week labels
         const scheduleRows = computed(() => {
             const rows = [];
             const s = schedule.value ?? {};
 
-            // If schedule is an array of row-like items (flat format)
             if (Array.isArray(s)) {
                 for (const item of s) {
                     const wk = item && (item.week ?? item.weekNumber ?? item.weekNo);

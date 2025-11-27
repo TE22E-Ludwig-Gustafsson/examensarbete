@@ -17,3 +17,8 @@ export const parseTextToSchedule = async (text) => {
   const response = await axios.post(`${API_URL}/parse`, { text });
   return response.data; // Returnerar JSON-schema från backend
 };
+
+export const fetchLatestSchedule = async () => {
+  const response = await axios.get(`${API_URL}/latest`);
+  return response.data;
+};
