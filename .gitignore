@@ -1,0 +1,28 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.sqlite3
+.env
+venv/
+.env/
+
+# FastAPI
+*.db
+*.log
+
+# --- Node/Vue ---
+node_modules/
+dist/
+.env.local
+.env.development
+.env.production
+
+# Vite
+.vite/
+
+# --- OS ---
+Thumbs.db
+
+# --- Editor ---
+.vscode/
+.idea/
