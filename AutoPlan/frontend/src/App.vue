@@ -1,16 +1,21 @@
 <template>
   <div id="app">
     <div style="display:flex; gap:20px; align-items:center; margin-bottom:10px">
-      <button @click="loadSaved">Hämta sparat schema</button>
-      <span style="opacity:0.7">(Tog fram det senaste schemat sparat i backend/db/latest_schedule.json)</span>
+      <button @click="loadSaved" :disabled="loading">
+        {{ loading ? 'Laddar...' : 'Hämta sparat schema' }}
+      </button>
+      <span style="opacity:0.7">
+        (Tog fram det senaste schemat sparat i backend/db/latest_schedule.json)
+      </span>
     </div>
 
     <ScheduleView :initialSchedule="schedule" />
-    <ChatBox @schedule-updated="updateSchedule" />
 
-    <div v-if="rawSchedule" style="margin-top:20px">
-      <h3>Senast mottagna (raw JSON)</h3>
-      <pre style="background:#fafafa;border:1px solid #eee;padding:10px">{{ rawSchedule }}</pre>
+    <ChatBox @schedule-updated="updateSchedule" @loading-changed="setLoading" />
+
+    <div style="margin-top:16px; min-height:24px">
+      <span v-if="loading">⏳ Genererar schema...</span>
+      <span v-else-if="lastMessage" style="opacity:0.8">{{ lastMessage }}</span>
     </div>
   </div>
 </template>
@@ -25,29 +30,37 @@ export default {
   components: { ScheduleView, ChatBox },
   setup() {
     const schedule = ref({ week1: [], week2: [], week3: [], week4: [], week5: [] });
-
-    const rawSchedule = ref('');
+    const loading = ref(false);
+    const lastMessage = ref('');
 
     const updateSchedule = (newSchedule) => {
       schedule.value = newSchedule;
-      try {
-        rawSchedule.value = JSON.stringify(newSchedule, null, 2);
-      } catch (e) {
-        rawSchedule.value = String(newSchedule);
+      loading.value = false;
+      lastMessage.value = 'Nytt schema genererat.';
+    };
+
+    const setLoading = (value) => {
+      loading.value = value;
+      if (value) {
+        lastMessage.value = '';
       }
     };
 
     const loadSaved = async () => {
       try {
+        loading.value = true;
+        lastMessage.value = '';
         const data = await fetchLatestSchedule();
         schedule.value = data;
-        rawSchedule.value = JSON.stringify(data, null, 2);
+        lastMessage.value = 'Sparat schema hämtat.';
       } catch (e) {
-        rawSchedule.value = 'Kunde inte hämta sparat schema';
+        lastMessage.value = 'Kunde inte hämta sparat schema.';
+      } finally {
+        loading.value = false;
       }
     };
 
-    return { schedule, updateSchedule, loadSaved, rawSchedule };
+    return { schedule, updateSchedule, loadSaved, loading, lastMessage, setLoading };
   }
 };
 </script>
