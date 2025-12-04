@@ -6,7 +6,7 @@
 </template>
 <script>
 import { ref } from 'vue';
-import { parseTextToSchedule } from '../services/api.js';
+import { parseSchedule } from '../services/api.js';
 
 export default {
     setup(props, { emit }) {
@@ -14,7 +14,7 @@ export default {
 
         const sendText = async () => {
             if (!userText.value) return;
-            const schedule = await parseTextToSchedule(userText.value);
+            const schedule = await parseSchedule(userText.value);
             emit('schedule-updated', schedule);
             userText.value = '';
         };

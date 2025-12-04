@@ -12,7 +12,6 @@
                 </tr>
             </thead>
             <tbody>
-                        <!-- Flatten schedule object into rows so each item gets its own table row and column -->
                         <tr v-for="(row, index) in (scheduleRows || [])" :key="index">
                             <td>{{ row.week }}</td>
                             <td>{{ row.day }}</td>
@@ -21,7 +20,6 @@
                             <td>{{ row.task }}</td>
                         </tr>
 
-                        <!-- Show friendly empty state when there are no items -->
                         <tr v-if="!(scheduleRows && scheduleRows.length)">
                             <td colspan="5" style="text-align:center; opacity:0.7">Inget uppdaterar i schemat</td>
                         </tr>
@@ -59,7 +57,6 @@ export default {
                 return rows;
             }
 
-            // If schedule is an object keyed by week (e.g., { week1: [ ... ] })
             for (const [weekKey, items] of Object.entries(s)) {
                 const weekLabel = String(weekKey).replace(/^week\s*/i, 'Vecka ');
                 if (Array.isArray(items)) {
