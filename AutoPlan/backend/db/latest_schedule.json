@@ -1,38 +1,38 @@
 {
   "week1": [],
-  "week2": [],
-  "week3": [],
-  "week4": [],
-  "week5": [
+  "week2": [
     {
       "day": "Måndag",
       "start": "05:00",
-      "end": "06:30",
+      "end": "06:00",
       "task": "Springa"
     },
     {
       "day": "Tisdag",
       "start": "05:00",
-      "end": "06:30",
+      "end": "06:00",
       "task": "Springa"
     },
     {
       "day": "Onsdag",
       "start": "05:00",
-      "end": "06:30",
+      "end": "06:00",
       "task": "Springa"
     },
     {
       "day": "Torsdag",
       "start": "05:00",
-      "end": "06:30",
+      "end": "06:00",
       "task": "Springa"
     },
     {
       "day": "Fredag",
       "start": "05:00",
-      "end": "06:30",
+      "end": "06:00",
       "task": "Springa"
     }
-  ]
+  ],
+  "week3": [],
+  "week4": [],
+  "week5": []
 }

@@ -25,7 +25,7 @@ class LlamaClient:
     def __init__(
         self,
         base_url: str = "http://localhost:11434",
-        model: str = "llama3.1",  # byt om du använder annan modell
+        model: str = "llama3.1",  
         timeout: int = 60,
     ):
         self.base_url = base_url.rstrip("/")
@@ -34,25 +34,41 @@ class LlamaClient:
 
     def _system_prompt(self) -> str:
         return (
-            "Du är en assistent som skapar studiescheman.\n"
-            "Input är en svensk text där användaren beskriver sitt plugg.\n\n"
-            "Du ska returnera ett JSON-objekt med nycklarna "
-            '"week1", "week2", "week3", "week4", "week5".\n'
+            "Du är en assistent som skapar veckoscheman.\n"
+            "Input är en svensk text där användaren beskriver aktiviteter.\n\n"
+            "DU MÅSTE ALLTID svara med ett JSON-objekt med EXAKT dessa nycklar:\n"
+            '  \"week1\", \"week2\", \"week3\", \"week4\", \"week5\".\n'
             "Varje vecka är en lista av objekt med fälten:\n"
-            '  - "day": veckodag på svenska, första bokstaven stor (t.ex. "Måndag").\n'
-            '  - "start": starttid i formatet \"HH:MM\" (24h).\n'
-            '  - "end": sluttid i formatet \"HH:MM\" (24h).\n'
-            '  - "task": kort beskrivning av aktiviteten.\n\n'
-            "Om användaren inte anger vecka, kan du anta week1.\n"
-            "Om användaren inte anger tider, gör rimliga gissningar.\n\n"
-            "VIKTIGT: Svara med ENDAST giltig JSON, inga förklaringar, "
-            "ingen text före eller efter."
+            '  - \"day\": veckodag på svenska, första bokstaven stor (t.ex. \"Måndag\").\n'
+            '  - \"start\": starttid i formatet \"HH:MM\" (24h). Om tid saknas i texten, gissa rimligt (t.ex. \"11:00\").\n'
+            '  - \"end\": sluttid i formatet \"HH:MM\" (24h). Om tid saknas i texten, gissa rimligt (t.ex. \"12:00\").\n'
+            '  - \"task\": kort beskrivning av aktiviteten.\n\n'
+            "Tolkning av veckor:\n"
+            "- Om användaren skriver t.ex. \"vecka 4 och 5\" ska du endast fylla week4 och week5.\n"
+            "- Om användaren skriver \"vecka 1 till 5\" ska du fylla ALLA veckor week1, week2, week3, week4 och week5.\n\n"
+            "Tolkning av 'varannan dag':\n"
+            "- \"varannan dag\" betyder måndag, onsdag, fredag (och ev. söndag om det känns rimligt).\n"
+            "- Applicera detta mönster i de veckor som nämns (t.ex. vecka 4 och 5, eller 1 till 5).\n\n"
+            "VIKTIGT:\n"
+            "- Svara med ENDAST giltig JSON, inga förklaringar, ingen tabell, ingen vanlig text.\n"
+            "- Inga ```json-kodblock, ingen extra text före eller efter JSON.\n"
         )
 
     def _parse_json(self, text: str) -> Dict[str, List[Dict]]:
         """Försök tolka modellens svar som JSON och se till att week1..week5 finns."""
+        t = text.strip()
+        if t.startswith("```"):
+            lines = t.splitlines()
+            if lines and lines[0].startswith("```"):
+                lines = lines[1:]
+            if lines and lines[-1].strip().startswith("```"):
+                lines = lines[:-1]
+            t = "\n".join(lines).strip()
+        else:
+            t = text
+
         try:
-            data = json.loads(text)
+            data = json.loads(t)
         except json.JSONDecodeError:
             return _ensure_weeks()
 
@@ -118,5 +134,7 @@ class LlamaClient:
 
         if not content:
             return _ensure_weeks()
+        
+        print("RAW MODEL RESPONSE:\n", content)  # tillfällig log
 
         return self._parse_json(content)
