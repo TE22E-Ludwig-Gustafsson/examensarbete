@@ -1,15 +1,15 @@
 <template>
-    <div>
+    <div class="chatbox">
         <textarea
             v-model="userText"
             placeholder="Skriv här..."
             rows="4"
-            style="width:100%;"
-    ></textarea>
+            class="chatbox-textarea"
+        ></textarea>
         <button
             @click="sendText"
             :disabled="loading || !userText.trim()"
-            style="margin-top:8px;"
+            class="chatbox-button"
         >
             {{ loading ? 'Genererar...' : 'Skicka' }}
         </button>
@@ -48,3 +48,39 @@ export default {
     }
 };
 </script>
+
+<style scoped>
+.chatbox {
+    max-width: 600px;
+    margin: 16px auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.chatbox-textarea {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-family: inherit;
+    font-size: 14px;
+    resize: vertical;
+}
+
+.chatbox-button {
+    margin-top: 8px;
+    align-self: flex-end;
+    padding: 6px 14px;
+    border: none;
+    border-radius: 4px;
+    background-color: #1976d2;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.chatbox-button:disabled {
+    opacity: 0.7;
+    cursor: default;
+}
+</style>

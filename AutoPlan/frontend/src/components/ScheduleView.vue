@@ -1,7 +1,8 @@
+
 <template>
-    <div>
+    <div class="schedule-container">
         <h2>Schema</h2>
-        <table border="1" cellpadding="5" cellspacing="0">
+        <table class="schedule-table" border="1" cellpadding="5" cellspacing="0">
             <thead>
                 <tr>
                     <th>Vecka</th>
@@ -80,6 +81,29 @@ export default {
 };
 </script>
 
-<style>
-    
+<style scoped>
+.schedule-container {
+    margin-top: 24px;
+}
+
+.schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.schedule-table th {
+    background-color: #f5f5f5;
+    text-align: left;
+}
+
+.schedule-table th,
+.schedule-table td {
+    border: 1px solid #ddd;
+    padding: 6px 8px;
+}
+
+.schedule-table tbody tr:nth-child(even) {
+    background-color: #fafafa;
+}
 </style>
