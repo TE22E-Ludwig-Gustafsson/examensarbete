@@ -37,7 +37,7 @@ export default {
                 emit('schedule-updated', schedule);
                 userText.value = '';
             } catch (e) {
-                // Här kan du lägga till felhantering om du vill
+
             } finally {
                 loading.value = false;
                 emit('loading-changed', false);
