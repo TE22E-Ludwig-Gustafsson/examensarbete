@@ -3,32 +3,32 @@
     {
       "day": "Måndag",
       "start": "10:00",
-      "end": "12:00",
-      "task": "Cykla"
+      "end": "11:00",
+      "task": "Cykla 1 timme"
     },
     {
       "day": "Tisdag",
       "start": "10:00",
-      "end": "12:00",
-      "task": "Cykla"
+      "end": "11:00",
+      "task": "Cykla 1 timme"
     },
     {
       "day": "Onsdag",
       "start": "10:00",
-      "end": "12:00",
-      "task": "Cykla"
+      "end": "11:00",
+      "task": "Cykla 1 timme"
     },
     {
       "day": "Torsdag",
       "start": "10:00",
-      "end": "12:00",
-      "task": "Cykla"
+      "end": "11:00",
+      "task": "Cykla 1 timme"
     },
     {
       "day": "Fredag",
       "start": "10:00",
-      "end": "12:00",
-      "task": "Cykla"
+      "end": "11:00",
+      "task": "Cykla 1 timme"
     }
   ],
   "week2": [],
