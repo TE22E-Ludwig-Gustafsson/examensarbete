@@ -1,38 +1,136 @@
 {
-  "week1": [
+  "week1": [],
+  "week2": [
     {
       "day": "Måndag",
-      "start": "10:00",
-      "end": "11:00",
-      "task": "Cykla 1 timme"
+      "start": "13:00",
+      "end": "15:00",
+      "task": "Chilla"
     },
     {
       "day": "Tisdag",
-      "start": "10:00",
-      "end": "11:00",
-      "task": "Cykla 1 timme"
+      "start": "13:00",
+      "end": "15:00",
+      "task": "Chilla"
     },
     {
       "day": "Onsdag",
-      "start": "10:00",
-      "end": "11:00",
-      "task": "Cykla 1 timme"
+      "start": "13:00",
+      "end": "15:00",
+      "task": "Chilla"
     },
     {
       "day": "Torsdag",
-      "start": "10:00",
-      "end": "11:00",
-      "task": "Cykla 1 timme"
+      "start": "13:00",
+      "end": "15:00",
+      "task": "Chilla"
     },
     {
       "day": "Fredag",
-      "start": "10:00",
-      "end": "11:00",
-      "task": "Cykla 1 timme"
+      "start": "13:00",
+      "end": "15:00",
+      "task": "Chilla"
+    },
+    {
+      "day": "Lördag",
+      "start": "13:00",
+      "end": "15:00",
+      "task": "Chilla"
+    },
+    {
+      "day": "Söndag",
+      "start": "13:00",
+      "end": "15:00",
+      "task": "Chilla"
     }
   ],
-  "week2": [],
-  "week3": [],
-  "week4": [],
+  "week3": [
+    {
+      "day": "Måndag",
+      "start": "13:00",
+      "end": "15:00",
+      "task": "Chilla"
+    },
+    {
+      "day": "Tisdag",
+      "start": "13:00",
+      "end": "15:00",
+      "task": "Chilla"
+    },
+    {
+      "day": "Onsdag",
+      "start": "13:00",
+      "end": "15:00",
+      "task": "Chilla"
+    },
+    {
+      "day": "Torsdag",
+      "start": "13:00",
+      "end": "15:00",
+      "task": "Chilla"
+    },
+    {
+      "day": "Fredag",
+      "start": "13:00",
+      "end": "15:00",
+      "task": "Chilla"
+    },
+    {
+      "day": "Lördag",
+      "start": "13:00",
+      "end": "15:00",
+      "task": "Chilla"
+    },
+    {
+      "day": "Söndag",
+      "start": "13:00",
+      "end": "15:00",
+      "task": "Chilla"
+    }
+  ],
+  "week4": [
+    {
+      "day": "Måndag",
+      "start": "13:00",
+      "end": "15:00",
+      "task": "Chilla"
+    },
+    {
+      "day": "Tisdag",
+      "start": "13:00",
+      "end": "15:00",
+      "task": "Chilla"
+    },
+    {
+      "day": "Onsdag",
+      "start": "13:00",
+      "end": "15:00",
+      "task": "Chilla"
+    },
+    {
+      "day": "Torsdag",
+      "start": "13:00",
+      "end": "15:00",
+      "task": "Chilla"
+    },
+    {
+      "day": "Fredag",
+      "start": "13:00",
+      "end": "15:00",
+      "task": "Chilla"
+    },
+    {
+      "day": "Lördag",
+      "start": "13:00",
+      "end": "15:00",
+      "task": "Chilla"
+    },
+    {
+      "day": "Söndag",
+      "start": "13:00",
+      "end": "15:00",
+      "task": "Chilla"
+    }
+  ],
   "week5": []
 }

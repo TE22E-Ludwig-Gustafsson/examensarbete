@@ -26,7 +26,7 @@ class LlamaClient:
         self,
         base_url: str = "http://localhost:11434",
         model: str = "gemma2:2b",  
-        timeout: int = 60,
+        timeout: int = 120,
     ):
         self.base_url = base_url.rstrip("/")
         self.model = model
@@ -37,21 +37,26 @@ class LlamaClient:
             "Du är en assistent som skapar veckoscheman.\n"
             "Input är en svensk text där användaren beskriver aktiviteter.\n\n"
             "DU MÅSTE ALLTID svara med ett JSON-objekt med EXAKT dessa nycklar:\n"
-            '  \"week1\", \"week2\", \"week3\", \"week4\", \"week5\".\n'
-            "Varje vecka är en lista av objekt med fälten:\n"
-            '  - \"day\": veckodag på svenska, första bokstaven stor (t.ex. \"Måndag\").\n'
-            '  - \"start\": starttid i formatet \"HH:MM\" (24h). Om tid saknas i texten, gissa rimligt (t.ex. \"11:00\").\n'
-            '  - \"end\": sluttid i formatet \"HH:MM\" (24h). Om tid saknas i texten, gissa rimligt (t.ex. \"12:00\").\n'
+            '  \"week1\", \"week2\", \"week3\", \"week4\", \"week5\".\n\n'
+            "VARJE VECKA MÅSTE VARA EN LISTA (array) av objekt, ÄVEN OM DET BARA ÄR EN AKTIVITET.\n"
+            "Exempel på KORREKT format:\n"
+            '{\"week1\": [{\"day\": \"Måndag\", \"start\": \"09:00\", \"end\": \"10:00\", \"task\": \"Träna\"}], \"week2\": [], ...}\n\n'
+            "Varje objekt i listan har fälten:\n"
+            '  - \"day\": veckodag på svenska (\"Måndag\", \"Tisdag\", \"Onsdag\", \"Torsdag\", \"Fredag\", \"Lördag\", \"Söndag\")\n'
+            '  - \"start\": starttid \"HH:MM\" (24h). Om tid saknas, gissa rimligt.\n'
+            '  - \"end\": sluttid \"HH:MM\" (24h). Om tid saknas, gissa rimligt.\n'
             '  - \"task\": kort beskrivning av aktiviteten.\n\n'
-            "Tolkning av veckor:\n"
-            "- Om användaren skriver t.ex. \"vecka 4 och 5\" ska du endast fylla week4 och week5.\n"
-            "- Om användaren skriver \"vecka 1 till 5\" ska du fylla ALLA veckor week1, week2, week3, week4 och week5.\n\n"
-            "Tolkning av 'varannan dag':\n"
-            "- \"varannan dag\" betyder måndag, onsdag, fredag (och ev. söndag om det känns rimligt).\n"
-            "- Applicera detta mönster i de veckor som nämns (t.ex. vecka 4 och 5, eller 1 till 5).\n\n"
+            "REGLER FÖR VECKOR:\n"
+            "- Om användaren enbart säger \"vecka 2\" - fyll ENDAST week2, lämna week1, week3, week4, week5 som tomma listor [].\n"
+            "- Om användaren säger \"varje dag\" i en vecka - skapa ETT objekt för varje dag (Måndag till Söndag) i den veckan.\n"
+            "- Om användaren säger \"vecka 1 till 3\" - fyll week1, week2 och week3.\n"
+            "- VIKTIGT: Om användaren nämner FLERA veckor (t.ex. \"vecka 2, vecka 3 och vecka 4\") - KOPIERA samma aktiviteter till ALLA nämnda veckor.\n"
+            "  Exempel: \"vecka 2, 3 och 4 ska jag chilla\" betyder att week2, week3 OCH week4 alla ska ha chilla-aktiviteten.\n\n"
             "VIKTIGT:\n"
             "- Svara med ENDAST giltig JSON, inga förklaringar, ingen tabell, ingen vanlig text.\n"
             "- Inga ```json-kodblock, ingen extra text före eller efter JSON.\n"
+            "- VARJE VECKA MÅSTE VARA EN LISTA [], ALDRIG ETT OBJEKT {}.\n"
+            "- När flera veckor nämns, DUPLICERA aktiviteterna till ALLA dessa veckor.\n"
         )
 
     def _parse_json(self, text: str) -> Dict[str, List[Dict]]:
@@ -79,9 +84,18 @@ class LlamaClient:
 
         for i in range(1, 6):
             key = f"week{i}"
-            if key in data and isinstance(data[key], list):
+            if key in data:
+                week_data = data[key]
                 cleaned_items = []
-                for item in data[key]:
+                
+                # Hantera både lista och enstaka objekt
+                if isinstance(week_data, dict):
+                    # Om AI:n returnerade ett objekt istället för lista, gör om till lista
+                    week_data = [week_data]
+                elif not isinstance(week_data, list):
+                    continue
+                
+                for item in week_data:
                     if not isinstance(item, dict):
                         continue
                     cleaned_items.append(
@@ -135,6 +149,7 @@ class LlamaClient:
         if not content:
             return _ensure_weeks()
         
+        print(prompt)
         print("RAW MODEL RESPONSE:\n", content)  # tillfällig log
 
         return self._parse_json(content)
