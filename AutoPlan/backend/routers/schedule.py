@@ -1,8 +1,8 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 import json
 from pathlib import Path
 from pydantic import BaseModel
-from ai.llama_client import LlamaClient
+from ai.llama_client import LlamaClient, LlamaClientError
 
 router = APIRouter()
 llama = LlamaClient()
@@ -13,7 +13,13 @@ class ParseRequest(BaseModel):
 @router.post("/parse")
 async def parse_schedule(request: ParseRequest):
     prompt = request.text
-    schedule = llama.generate(prompt)
+    try:
+        schedule = llama.generate(prompt)
+    except LlamaClientError as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail="Internt fel vid schemagenerering.") from exc
+
     try:
         db_dir = Path(__file__).resolve().parents[1] / 'db'
         db_dir.mkdir(parents=True, exist_ok=True)

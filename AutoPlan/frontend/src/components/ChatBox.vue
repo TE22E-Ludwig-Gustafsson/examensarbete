@@ -20,7 +20,7 @@ import { ref } from 'vue';
 import { parseSchedule } from '../services/api.js';
 
 export default {
-    emits: ['schedule-updated', 'loading-changed'],
+    emits: ['schedule-updated', 'loading-changed', 'generation-error'],
     setup(props, { emit }) {
         const userText = ref('');
         const loading = ref(false);
@@ -37,7 +37,8 @@ export default {
                 emit('schedule-updated', schedule);
                 userText.value = '';
             } catch (e) {
-
+                const message = e?.response?.data?.detail || 'Kunde inte generera schema just nu.';
+                emit('generation-error', message);
             } finally {
                 loading.value = false;
                 emit('loading-changed', false);

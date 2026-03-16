@@ -11,7 +11,11 @@
 
     <ScheduleView :initialSchedule="schedule" />
 
-    <ChatBox @schedule-updated="updateSchedule" @loading-changed="setLoading" />
+    <ChatBox
+      @schedule-updated="updateSchedule"
+      @loading-changed="setLoading"
+      @generation-error="handleGenerationError"
+    />
 
     <div style="margin-top:16px; min-height:24px">
       <span v-if="loading">⏳ Genererar schema...</span>
@@ -46,6 +50,11 @@ export default {
       }
     };
 
+    const handleGenerationError = (message) => {
+      loading.value = false;
+      lastMessage.value = message || 'Kunde inte generera schema.';
+    };
+
     const loadSaved = async () => {
       try {
         loading.value = true;
@@ -60,7 +69,7 @@ export default {
       }
     };
 
-    return { schedule, updateSchedule, loadSaved, loading, lastMessage, setLoading };
+    return { schedule, updateSchedule, loadSaved, loading, lastMessage, setLoading, handleGenerationError };
   }
 };
 </script>
