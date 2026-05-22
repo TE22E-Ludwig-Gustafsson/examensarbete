@@ -35,7 +35,7 @@ class LlamaClient:
         self,
         base_url: str = "http://localhost:11434",
         model: str = "gemma2:2b",
-        timeout: int = 120,
+        timeout: int = 20,
     ):
         self.base_url = os.getenv("OLLAMA_BASE_URL", base_url).rstrip("/")
         self.model = os.getenv("OLLAMA_MODEL", model)

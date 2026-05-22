@@ -1,14 +1,50 @@
 {
-  "week1": [
+  "week1": [],
+  "week2": [],
+  "week3": [
     {
       "day": "Måndag",
-      "start": "06:00",
-      "end": "08:00",
-      "task": "Cykla"
+      "start": "09:00",
+      "end": "10:00",
+      "task": "Springa"
+    },
+    {
+      "day": "Tisdag",
+      "start": "09:00",
+      "end": "10:00",
+      "task": "Springa"
+    },
+    {
+      "day": "Onsdag",
+      "start": "09:00",
+      "end": "10:00",
+      "task": "Springa"
+    },
+    {
+      "day": "Torsdag",
+      "start": "09:00",
+      "end": "10:00",
+      "task": "Springa"
+    },
+    {
+      "day": "Fredag",
+      "start": "09:00",
+      "end": "10:00",
+      "task": "Springa"
+    },
+    {
+      "day": "Lördag",
+      "start": "09:00",
+      "end": "10:00",
+      "task": "Springa"
+    },
+    {
+      "day": "Söndag",
+      "start": "09:00",
+      "end": "10:00",
+      "task": "Springa"
     }
   ],
-  "week2": [],
-  "week3": [],
   "week4": [],
   "week5": []
 }
